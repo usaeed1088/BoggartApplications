@@ -75,6 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)/../../../../../../;$(ProjectDir)/../../../../../../Boggart/Lib;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -146,10 +147,10 @@
     <ClCompile Include="..\..\..\..\..\Applications\InProcessTest\InProcessTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\External\Boggart\Build\MSVC\Lib\Lib.vcxproj">
+    <ProjectReference Include="..\..\..\..\..\..\Boggart\Build\MSVC\Lib\Lib.vcxproj">
       <Project>{49f83fb4-9495-46fd-8375-905db78d0684}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\External\Boggart\PAL\Build\MSVC\PAL\PAL\PAL.vcxproj">
+    <ProjectReference Include="..\..\..\..\..\..\PAL\Build\MSVC\PAL\PAL\PAL.vcxproj">
       <Project>{d01fe32a-46c5-43b0-affd-98c4c1f17236}</Project>
     </ProjectReference>
   </ItemGroup>

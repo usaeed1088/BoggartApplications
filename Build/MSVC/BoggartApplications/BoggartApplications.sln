@@ -5,9 +5,9 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InProcessTest", "InProcessTest\InProcessTest\InProcessTest.vcxproj", "{B90F27BB-C016-4722-A471-485C5CF44E69}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lib", "..\..\..\External\Boggart\Build\MSVC\Lib\Lib.vcxproj", "{49F83FB4-9495-46FD-8375-905DB78D0684}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lib", "..\..\..\..\Boggart\Build\MSVC\Lib\Lib.vcxproj", "{49F83FB4-9495-46FD-8375-905DB78D0684}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PAL", "..\..\..\External\Boggart\PAL\Build\MSVC\PAL\PAL\PAL.vcxproj", "{D01FE32A-46C5-43B0-AFFD-98C4C1F17236}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PAL", "..\..\..\..\PAL\Build\MSVC\PAL\PAL\PAL.vcxproj", "{D01FE32A-46C5-43B0-AFFD-98C4C1F17236}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

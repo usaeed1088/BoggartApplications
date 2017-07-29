@@ -3,7 +3,7 @@
 #include <Boggart/Lib/Transport/InProcess/InProcess.h>
 #include <Boggart/Lib/Timer/Manager/SoftTimerManager/SoftTimerManager.h>
 
-#include <Boggart/PAL/Lib/PAL.h>
+#include <PAL/Lib/PAL.h>
 
 #include <iostream>
 
