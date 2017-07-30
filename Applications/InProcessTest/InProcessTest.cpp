@@ -3,7 +3,7 @@
 #include <Boggart/Lib/Transport/InProcess/InProcess.h>
 #include <Boggart/Lib/Timer/Manager/SoftTimerManager/SoftTimerManager.h>
 
-#include <PAL/Lib/PAL.h>
+#include <PAL/Lib/Instantiator.h>
 
 #include <iostream>
 
@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
 
 	Boggart::Timer::IDevicePtr outgoingProcessingTimer =
 		timerManager->Create(
-			Boggart::Timer::Span_t(1000),
+			Boggart::Timer::Span_t(300),
 			Boggart::Timer::Type_t::Periodic,
 			f);
 	timerManager->Start(outgoingProcessingTimer);
@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
 	{
 		ProcessIncoming(transports);
 		timerManager->Process();
-		PAL::PAL::Instance()->Sleep(100);
+		PAL::Instantiator::APIFactory()->GetTranceInstance()->Sleep(1000);
 	}
 
 	return 0;
