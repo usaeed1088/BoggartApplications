@@ -1,6 +1,6 @@
-#include <Boggart/Lib/IPC/Asynchronous/Asynchronous.h>
-#include <Boggart/Lib/Logger/Console/Console.h>
 #include <Boggart/Lib/Transport/InProcess/InProcess.h>
+
+#include <Boggart/Lib/Logger/Console/Console.h>
 #include <Boggart/Lib/Timer/Manager/SoftTimerManager/SoftTimerManager.h>
 
 #include <PAL/Lib/Instantiator.h>
@@ -53,9 +53,10 @@ void ProcessOutgoing(std::vector<Boggart::Transport::ITransportPtr>* transports)
 
 int main(int argc, char* argv[])
 {
-	std::shared_ptr<Boggart::Logger::Console> logger(new Boggart::Logger::Console());
-	std::shared_ptr<Boggart::Timer::SoftTimerManager> timerManager(new Boggart::Timer::SoftTimerManager());	
-	timerManager->InjectDependencies(logger, nullptr);
+	Boggart::Logger::ILoggerPtr logger(new Boggart::Logger::Console());
+	std::shared_ptr<Boggart::Timer::SoftTimerManager> timerManager(new Boggart::Timer::SoftTimerManager());
+
+	timerManager->InjectDependencies(logger);
 
 	std::vector<Boggart::Transport::ITransportPtr> transports;
 
