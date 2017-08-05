@@ -25,14 +25,14 @@ void PrintVector(std::vector<unsigned char> data)
 	std::cout << "]" << std::endl;
 }
 
-void ProcessIncoming(std::vector<Boggart::Transport::ITransportPtr>& transports)
+void ProcessIncoming(std::vector<Boggart::Transport::ITransportPtr>* transports)
 {
-	for (Boggart::Transport::ITransportPtr transport : transports)
+	for (std::int32_t i = 0; i<transports->size(); i++)
 	{
-		std::vector<unsigned char> data = transport->Receive();
+		std::vector<unsigned char> data = transports->at(i)->Receive();
 		if (!data.empty())
 		{
-			std::cout << transport->Id() << " Received ";
+			std::cout << transports->at(i)->Id() << " Received ";
 			PrintVector(data);
 		}
 	}
@@ -60,16 +60,29 @@ int main(int argc, char* argv[])
 
 	std::vector<Boggart::Transport::ITransportPtr> transports;
 
-	std::function<void(void)> f = std::bind(ProcessOutgoing, &transports);
+	std::function<void(void)> processOutgoing = std::bind(ProcessOutgoing, &transports);
+	std::function<void(void)> processIncoming = std::bind(ProcessIncoming, &transports);
 
 	Boggart::Timer::IDevicePtr outgoingProcessingTimer =
-		timerManager->Create(
-			Boggart::Timer::Span_t(300),
+		timerManager->Create
+		(
+			Boggart::Timer::Span_t(1000),
 			Boggart::Timer::Type_t::Periodic,
-			f);
-	timerManager->Start(outgoingProcessingTimer);
+			processOutgoing
+		);
 
-	const std::int32_t N = 5;
+	Boggart::Timer::IDevicePtr incomingProcessingTimer =
+		timerManager->Create
+		(
+			Boggart::Timer::Span_t(100),
+			Boggart::Timer::Type_t::Periodic,
+			processIncoming
+		);
+
+	timerManager->Start(outgoingProcessingTimer);
+	timerManager->Start(incomingProcessingTimer);
+
+	const std::int32_t N = 2;
 
 	char c = '1';
 	for (int i = 0; i < N; i++)
@@ -81,9 +94,8 @@ int main(int argc, char* argv[])
 
 	while (true)
 	{
-		ProcessIncoming(transports);
 		timerManager->Process();
-		PAL::Instantiator::APIFactory()->GetTranceInstance()->Sleep(1000);
+		PAL::Instantiator::APIFactory()->GetTranceInstance()->Sleep(10);
 	}
 
 	return 0;
