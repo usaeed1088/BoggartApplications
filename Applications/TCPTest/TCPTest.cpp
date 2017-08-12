@@ -4,7 +4,7 @@
 #include <Logger/Console/Console.h>
 #include <Timer/Manager/SoftTimerManager/SoftTimerManager.h>
 
-#include <PAL/Lib/Instantiator.h>
+#include <Lib/Instantiator.h>
 
 #include <memory>
 #include <string>

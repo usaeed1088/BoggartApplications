@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B45702E9-2004-46A0-915B-B36207C45783}</ProjectGuid>
+    <ProjectGuid>{F27D1F69-0A09-4022-8864-D4F03C195D1B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>TCPTest</RootNamespace>
+    <RootNamespace>IPCTest</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -74,7 +74,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)/../../../../../Boggart;$(ProjectDir)/../../../../../PAL;$(ProjectDir)/../../../../../Boggart/Lib;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)/../../../../../PAL;$(ProjectDir)/../../../../../Boggart;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -143,7 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Applications\TCPTest\TCPTest.cpp" />
+    <ClCompile Include="..\..\..\..\Applications\IPCTest\IPCTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\Boggart\Build\MSVC\Lib\Lib.vcxproj">
