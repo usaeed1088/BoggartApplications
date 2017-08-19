@@ -1,8 +1,8 @@
-#include <Transport/TCP/Client/Client.h>
-#include <Transport/TCP/Server/Server.h>
+#include <Lib/Transport/TCP/Client/Client.h>
+#include <Lib/Transport/TCP/Server/Server.h>
 
-#include <Logger/Console/Console.h>
-#include <Timer/Manager/SoftTimerManager/SoftTimerManager.h>
+#include <Lib/Logger/Console/Console.h>
+#include <Lib/Timer/Manager/SoftTimerManager/SoftTimerManager.h>
 
 #include <Lib/Instantiator.h>
 
