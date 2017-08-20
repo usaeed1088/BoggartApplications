@@ -15,7 +15,8 @@ private:
 	std::string m_Message;
 
 public:
-	ChatMessage(std::string message) : MessageBase(std::string("Chat")), m_Message(message) {}
+	ChatMessage(std::string message) : MessageBase(std::string("chat")), m_Message(message) {}
+	ChatMessage(const std::vector<unsigned char>& data) : MessageBase(data) { Decode(data); }
 
 	std::string Message() { return m_Message; }
 
@@ -43,10 +44,10 @@ class Subscriber : public Boggart::IPC::Subscribable
 public:
 	Subscriber() :Subscribable("Susbcriber") {}
 
-	void OnMessage(Boggart::Message::IMessagePtr message)
+	void OnMessage(std::string source, std::string destination, std::vector<unsigned char> data)
 	{
-		std::shared_ptr<ChatMessage> chatMessage = std::static_pointer_cast<ChatMessage>(message);
-		std::cout << message->Source() << " -> " << message->Destination() << " :: " << chatMessage->Message() << std::endl;
+		std::shared_ptr<ChatMessage> chatMessage = std::make_shared<ChatMessage>(data);
+		std::cout << source << " -> " << destination << " :: " << chatMessage->Message() << std::endl;
 	}
 };
 
@@ -86,7 +87,7 @@ int main(int argc, char* argv[])
 	std::shared_ptr<Boggart::Transport::TransportBase> subscriberTransport(new Boggart::Transport::TCP::Client("Subscriber", SERVER_IP, SERVER_PORT));
 	Boggart::BoggartPtr subscriber = CreateBoggart("Subscriber", subscriberTransport);
 	std::shared_ptr<Subscriber> subscription(new Subscriber());
-	subscriber->IPC()->SubscribeMessage(subscription, "Chat", std::bind(&Subscriber::OnMessage, subscription, std::placeholders::_1));
+	subscriber->IPC()->SubscribeMessage(subscription, "chat", std::bind(&Subscriber::OnMessage, subscription, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 	Boggart::Timer::IDevicePtr messageSendingTimer = subscriber->TimerManager()->Create
 	(
 		Boggart::Timer::Span_t(1000),
