@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Messages">
+      <UniqueIdentifier>{524ce91a-2c8c-4372-b420-25beeb41bd4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Messages\UserIO">
+      <UniqueIdentifier>{131ac4ae-27c9-48b2-8e11-3c5470bd5caa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserIO">
+      <UniqueIdentifier>{eff8439b-8204-40fa-bdca-ce587f447feb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Applications\Demonstration_UserIO\Demonstration_UserIO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Applications\Demonstration_UserIO\Messages\UserIO\UserIOMessage.cpp">
+      <Filter>Messages\UserIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Applications\Demonstration_UserIO\UserIO\UserIO.cpp">
+      <Filter>UserIO</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Applications\Demonstration_UserIO\Messages\UserIO\UserIOMessage.h">
+      <Filter>Messages\UserIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Applications\Demonstration_UserIO\UserIO\UserIO.h">
+      <Filter>UserIO</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

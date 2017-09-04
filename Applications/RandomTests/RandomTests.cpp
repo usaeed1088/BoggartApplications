@@ -59,7 +59,7 @@ void SendMessage(Boggart::BoggartPtr boggart)
 
 Boggart::BoggartPtr CreateBoggart(std::string id, std::shared_ptr<Boggart::Transport::TransportBase> transport)
 {
-	std::shared_ptr<Boggart::Boggart> boggart(new Boggart::Boggart("Mr.Server"));
+	std::shared_ptr<Boggart::Boggart> boggart(new Boggart::Boggart(id));
 
 	boggart->InjectIPC(std::shared_ptr<Boggart::IPC::IPCBase>(new Boggart::IPC::Asynchronous(id)));
 	boggart->InjectLogger(std::shared_ptr<Boggart::Logger::LoggerBase>(new Boggart::Logger::Console()));
