@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 {
 	Boggart::BoggartPtr boggart(new Boggart::Boggart("some_boggart_client"));
 
-	std::shared_ptr<Boggart::Transport::TransportBase> client(new Boggart::Transport::TCP::Client("some_boggart_client", "127.0.0.1", 9999));
+	std::shared_ptr<Boggart::Transport::TransportBase> client(new Boggart::Transport::TCP::Client("some_boggart_client", "127.0.0.1", 9998));
 	boggart->InjectTransport(client);
 
 	boggart->SubscribeMessage(ChatMessage::TypeString(), std::bind(OnMessage, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
