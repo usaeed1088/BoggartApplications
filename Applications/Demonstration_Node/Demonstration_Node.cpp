@@ -72,8 +72,8 @@ int main(int argc, char* argv[])
 			}
 			else if (message->Command() == UserIOMessage::Command_Send)
 			{
-				Boggart::Message::IMessagePtr message(new GenericMessage(message->Topic(), message->Data()));
-				boggart->Send(Boggart::IPC::DestinationAny, message);
+				Boggart::Message::IMessagePtr imessage(new GenericMessage(message->Topic(), message->Data()));
+				boggart->Send(Boggart::IPC::DestinationAny, imessage);
 			}
 		}
 		else if(Options::Personality() == Options::PERSONALITY_SERVER)// If it's for someone else
