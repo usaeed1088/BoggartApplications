@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
 				boggart->Send(Boggart::IPC::DestinationAny, message);
 			}
 		}
-		else // If it's for someone else
+		else if(Options::Personality() == Options::PERSONALITY_SERVER)// If it's for someone else
 		{
 			boggart->Send(message->Destination(), message);
 		}
