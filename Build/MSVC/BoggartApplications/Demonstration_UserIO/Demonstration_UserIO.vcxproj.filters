@@ -27,19 +27,19 @@
     <ClCompile Include="..\..\..\..\Applications\Demonstration_UserIO\Demonstration_UserIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Applications\Demonstration_UserIO\Messages\UserIO\UserIOMessage.cpp">
-      <Filter>Messages\UserIO</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\Applications\Demonstration_UserIO\UserIO\UserIO.cpp">
       <Filter>UserIO</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Applications\Demonstration_Common\Messages\UserIO\UserIOMessage.cpp">
+      <Filter>Messages\UserIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Applications\Demonstration_UserIO\Messages\UserIO\UserIOMessage.h">
-      <Filter>Messages\UserIO</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\Applications\Demonstration_UserIO\UserIO\UserIO.h">
       <Filter>UserIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Applications\Demonstration_Common\Messages\UserIO\UserIOMessage.h">
+      <Filter>Messages\UserIO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

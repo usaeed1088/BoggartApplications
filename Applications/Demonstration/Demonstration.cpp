@@ -26,25 +26,7 @@ int main(int argc, char* argv[])
 {
 	Boggart::BoggartPtr boggart(new Boggart::Boggart("some_boggart"));
 
-	std::function<void(std::string, std::string, std::vector<unsigned char>)> OnUserIOMessage =
-		[boggart](std::string source, std::string destination, std::vector<unsigned char> data)
-	{
-		UserIOMessage message(data);
-		if (!message.Valid())
-		{
-			return;
-		}
-
-		if (message.Command() == UserIOMessage::Command_Subscribe)
-		{
-			boggart->SubscribeMessage(message.Topic(), std::bind(OnMessage, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-		}
-		else if (message.Command() == UserIOMessage::Command_Send)
-		{
-			Boggart::Message::IMessagePtr message(new GenericMessage(message.Topic(), message.Data()));
-			boggart->Send(Boggart::IPC::DestinationAny, message);
-		}
-	};
+	
 
 	boggart->SubscribeMessage(UserIOMessage::TypeString(), OnUserIOMessage);
 

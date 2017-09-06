@@ -19,12 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\..\Applications\Demonstration_Common\Messages\UserIO\UserIOMessage.cpp" />
     <ClCompile Include="..\..\..\..\Applications\Demonstration_UserIO\Demonstration_UserIO.cpp" />
-    <ClCompile Include="..\..\..\..\Applications\Demonstration_UserIO\Messages\UserIO\UserIOMessage.cpp" />
     <ClCompile Include="..\..\..\..\Applications\Demonstration_UserIO\UserIO\UserIO.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Applications\Demonstration_UserIO\Messages\UserIO\UserIOMessage.h" />
+    <ClInclude Include="..\..\..\..\Applications\Demonstration_Common\Messages\UserIO\UserIOMessage.h" />
     <ClInclude Include="..\..\..\..\Applications\Demonstration_UserIO\UserIO\UserIO.h" />
   </ItemGroup>
   <ItemGroup>

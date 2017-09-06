@@ -12,8 +12,9 @@ std::string UserIOMessage::TypeString()
 	return s_Type;
 }
 
-UserIOMessage::UserIOMessage(std::string command, std::string topic, std::string data) :
+UserIOMessage::UserIOMessage(std::string destination, std::string command, std::string topic, std::string data) :
 	MessageBase(s_Type),
+	m_Destination(destination),
 	m_Command(command),
 	m_Topic(topic),
 	m_Data(data)
@@ -28,6 +29,11 @@ UserIOMessage::UserIOMessage(const std::vector<unsigned char>& data) :
 	{
 		m_Valid = true;
 	}
+}
+
+std::string UserIOMessage::Destination()
+{
+	return m_Destination;
 }
 
 std::string UserIOMessage::Command()
@@ -49,6 +55,7 @@ std::vector<unsigned char> UserIOMessage::OnEncode()
 {
 	std::vector<unsigned char> data;
 
+	Boggart::Message::Utility::EncodeString(m_Destination, data);
 	Boggart::Message::Utility::EncodeString(m_Command, data);
 	Boggart::Message::Utility::EncodeString(m_Topic, data);
 	Boggart::Message::Utility::EncodeString(m_Data, data);
@@ -65,6 +72,7 @@ bool UserIOMessage::OnDecode(const std::vector<unsigned char>& data)
 
 	std::vector<unsigned char> _data = data;
 
+	Boggart::Message::Utility::DecodeString(m_Destination, _data);
 	Boggart::Message::Utility::DecodeString(m_Command, _data);
 	Boggart::Message::Utility::DecodeString(m_Topic, _data);
 	Boggart::Message::Utility::DecodeString(m_Data, _data);

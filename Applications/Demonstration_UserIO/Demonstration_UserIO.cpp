@@ -2,7 +2,7 @@
 #include <Lib/Instantiator.h>
 
 #include "UserIO/UserIO.h"
-#include "Messages/UserIO/UserIOMessage.h"
+#include "../../Applications/Demonstration_Common/Messages/UserIO/UserIOMessage.h"
 
 #include <mutex>
 #include <queue>
@@ -20,15 +20,15 @@ void Task_UserIO()
 		messageQueue.push(message);
 	};
 
-	UserIO::Handler onSubscriptionCommand = [PushMessage](std::string topic, std::string data)
+	UserIO::Handler onSubscriptionCommand = [PushMessage](std::string destination, std::string topic, std::string data)
 	{
-		Boggart::Message::IMessagePtr message(new UserIOMessage(UserIOMessage::Command_Subscribe, topic, data));
+		Boggart::Message::IMessagePtr message(new UserIOMessage(destination, UserIOMessage::Command_Subscribe, topic, data));
 		PushMessage(message);
 	};
 
-	UserIO::Handler onSendCommand = [PushMessage](std::string topic, std::string data)
+	UserIO::Handler onSendCommand = [PushMessage](std::string destination, std::string topic, std::string data)
 	{
-		Boggart::Message::IMessagePtr message(new UserIOMessage(UserIOMessage::Command_Send, topic, data));
+		Boggart::Message::IMessagePtr message(new UserIOMessage(destination, UserIOMessage::Command_Send, topic, data));
 		PushMessage(message);
 	};
 

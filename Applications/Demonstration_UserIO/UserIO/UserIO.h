@@ -7,7 +7,7 @@
 class UserIO
 {
 public:
-	typedef std::function<void(std::string, std::string)> Handler;
+	typedef std::function<void(std::string, std::string, std::string)> Handler; // destination, topic, data
 
 private:
 	static std::map<std::string, Handler> s_CommandHandlers;

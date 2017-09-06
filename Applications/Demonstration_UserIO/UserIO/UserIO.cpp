@@ -31,15 +31,15 @@ void UserIO::Process()
 
 void UserIO::PrintMenu()
 {
-	Display("You can: ");
+	Display("You can execute for any Boggart: ");
 
 	Display("Subscribe (sub)");
 	Display("Send Data (send)");
 
 	Display("");
 
-	Display("Example: sub <topic>");
-	Display("Example: send <topic> \"<data>\"");
+	Display("Example: <destination> sub <topic>");
+	Display("Example: <destination> send <topic> <data>");
 }
 
 std::string UserIO::Query(std::string query)
@@ -57,20 +57,17 @@ void UserIO::Display(std::string data)
 
 void UserIO::ProcessResponse(std::string response)
 {
-	std::vector<std::string> parsedData(3);
+	std::vector<std::string> parsedData(4);
 	int index = 0;
 
-	// Raw parser
+	// Not a very well thought out implementation
+	// But it works for the scope of this demonstration
 	std::string temp;
-	for (auto c : response)
-	{
-		if (c == ' ')
-		{
-			if (temp.empty())
-			{
-				continue;
-			}
 
+	for (char c : response)
+	{
+		if ((index < 3) && (c == ' '))
+		{
 			parsedData[index++] = temp;
 			temp.clear();
 		}
@@ -82,20 +79,22 @@ void UserIO::ProcessResponse(std::string response)
 
 	if (!temp.empty())
 	{
-		parsedData[index++] = temp;
+		parsedData[index] = temp;
 	}
+	
+	std::string destination = parsedData[0];
+	std::string command = parsedData[1];
+	std::string topic = parsedData[2];
+	std::string data = parsedData[3];
 
-	std::string command = parsedData[0];
-	std::string topic = parsedData[1];
-	std::string data = parsedData[2];
-
+	Display("Destination: " + destination);
 	Display("Command: " + command);
 	Display("Topic: " + topic);
 	Display("Data: " + data);
 
 	if (s_CommandHandlers.find(command) != s_CommandHandlers.end()) // Found?
 	{
-		s_CommandHandlers[command](topic, data);
+		s_CommandHandlers[command](destination, topic, data);
 	}
 	else
 	{

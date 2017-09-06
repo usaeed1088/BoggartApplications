@@ -15,14 +15,16 @@ public:
 	static std::string TypeString();
 
 private:
+	std::string m_Destination;
 	std::string m_Command;
 	std::string m_Topic;
 	std::string m_Data;
 
 public:
-	UserIOMessage(std::string command, std::string topic, std::string message);
+	UserIOMessage(std::string destination, std::string command, std::string topic, std::string message);
 	UserIOMessage(const std::vector<unsigned char>& data);
 
+	std::string Destination();
 	std::string Command();
 	std::string Topic();
 	std::string Data();

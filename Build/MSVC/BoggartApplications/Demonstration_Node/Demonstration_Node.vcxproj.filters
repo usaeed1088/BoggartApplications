@@ -22,6 +22,12 @@
     <Filter Include="Messages\Generic">
       <UniqueIdentifier>{e6167da8-f028-45ac-a7b8-f71a004bb457}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Options">
+      <UniqueIdentifier>{365a80ff-d4d2-4f29-91ef-1a5cb0739fa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Messages\UserIO">
+      <UniqueIdentifier>{bd01196b-f53d-4984-b2b3-693234c333d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Applications\Demonstration_Node\Demonstration_Node.cpp">
@@ -33,6 +39,12 @@
     <ClCompile Include="..\..\..\..\Applications\Demonstration_Node\Messages\Generic\Generic.cpp">
       <Filter>Messages\Generic</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Applications\Demonstration_Node\Options\Options.cpp">
+      <Filter>Options</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Applications\Demonstration_Common\Messages\UserIO\UserIOMessage.cpp">
+      <Filter>Messages\UserIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Applications\Demonstration_Node\Messages\Chat\Chat.h">
@@ -40,6 +52,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Applications\Demonstration_Node\Messages\Generic\Generic.h">
       <Filter>Messages\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Applications\Demonstration_Node\Options\Options.h">
+      <Filter>Options</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Applications\Demonstration_Common\Messages\UserIO\UserIOMessage.h">
+      <Filter>Messages\UserIO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
