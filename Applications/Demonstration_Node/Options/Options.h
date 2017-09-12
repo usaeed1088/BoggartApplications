@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 class Options
 {
@@ -9,17 +10,16 @@ public:
 	static const std::string PERSONALITY_SERVER;
 
 private:
-	static std::string s_Personality;
-	static std::int32_t s_Port;
-	static std::string s_IP;
-
-private:
+	std::string m_Personality;
+	std::int32_t m_Port;
+	std::string m_IP;
+	
+public:
 	Options();
 
-public:
-	static bool Process(int argc, char* argv[]);
+	bool Process(std::vector<std::string> args);
 
-	static std::string Personality();
-	static std::int32_t Port();
-	static std::string IP();
+	std::string Personality();
+	std::int32_t Port();
+	std::string IP();
 };

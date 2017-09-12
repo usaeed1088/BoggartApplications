@@ -7,16 +7,15 @@
 const std::string Options::PERSONALITY_CLIENT("client");
 const std::string Options::PERSONALITY_SERVER("server");
 
-std::string Options::s_Personality;
-std::string Options::s_IP;
-std::int32_t Options::s_Port(0);
-
-Options::Options()
+Options::Options():
+	m_Personality(),
+	m_IP(),
+	m_Port()
 {
 
 }
 
-bool Options::Process(int argc, char* argv[])
+bool Options::Process(std::vector<std::string> args)
 {
 	std::function<void()> PrintUsage = []()
 	{
@@ -24,33 +23,33 @@ bool Options::Process(int argc, char* argv[])
 		std::cout << "Demonstration_Node " << PERSONALITY_CLIENT << " <server_ip> <server_port>" << std::endl;
 	};
 
-	if (argc < 3)
+	if (args.size() < 3)
 	{
 		PrintUsage();
 		return false;
 	}
 
-	s_Personality = argv[1];
+	m_Personality = args[1];
 
-	if (s_Personality == PERSONALITY_SERVER)
+	if (m_Personality == PERSONALITY_SERVER)
 	{
 		std::stringstream ss;
-		ss << argv[2];
-		ss >> std::dec >> s_Port;
+		ss << args[2];
+		ss >> std::dec >> m_Port;
 	}
-	else if (s_Personality == PERSONALITY_CLIENT)
+	else if (m_Personality == PERSONALITY_CLIENT)
 	{
-		if (argc < 4)
+		if (args.size() < 4)
 		{
 			PrintUsage();
 			return false;
 		}
 
-		s_IP = argv[2];
+		m_IP = args[2];
 
 		std::stringstream ss;
-		ss << argv[3];
-		ss >> std::dec >> s_Port;
+		ss << args[3];
+		ss >> std::dec >> m_Port;
 	}
 	else
 	{
@@ -63,15 +62,15 @@ bool Options::Process(int argc, char* argv[])
 
 std::string Options::Personality()
 {
-	return s_Personality;
+	return m_Personality;
 }
 
 std::int32_t Options::Port()
 {
-	return s_Port;
+	return m_Port;
 }
 
 std::string Options::IP()
 {
-	return s_IP;
+	return m_IP;
 }

@@ -2,7 +2,6 @@
 #include <Lib/Instantiator.h>
 
 #include "Messages/Chat/Chat.h"
-#include "Messages/Generic/Generic.h"
 
 #include "../../Applications/Demonstration_Common/Messages/UserIO/UserIOMessage.h"
 
@@ -10,7 +9,7 @@
 
 #include <iostream>
 
-void OnMessage(std::string source, std::string destination, std::vector<unsigned char> data)
+void OnMessage(std::string me, std::string source, std::string destination, std::vector<unsigned char> data)
 {
 	ChatMessage message(data);
 	if (!message.Valid())
@@ -21,7 +20,7 @@ void OnMessage(std::string source, std::string destination, std::vector<unsigned
 	std::string format = PAL::Instantiator::APIFactory()->GetTimeInstance()->TimeFormat();
 	std::string timestamp = PAL::Instantiator::APIFactory()->GetTimeInstance()->HumanReadableTimestamp(format, false);
 
-	std::cout << timestamp << " " << source << " -> " << destination << " : " << message.Message() << std::endl;
+	std::cout << timestamp << " [" << me << "] received from [" << source << "] : " << message.Message() << std::endl;
 }
 
 std::string Query(std::string query)
@@ -32,11 +31,12 @@ std::string Query(std::string query)
 	return response;
 }
 
-int main(int argc, char* argv[])
+void CreateBoggart(std::vector<std::string> args)
 {
-	if (!Options::Process(argc, argv))
+	std::shared_ptr<Options> options(new Options());
+	if (!options->Process(args))
 	{
-		return 0;
+		return;
 	}
 
 	std::string name = Query("Give me a name, please? ");
@@ -46,46 +46,59 @@ int main(int argc, char* argv[])
 
 	std::shared_ptr<Boggart::Transport::TransportBase> transport = nullptr;
 
-	if (Options::Personality() == Options::PERSONALITY_CLIENT)
+	if (options->Personality() == Options::PERSONALITY_CLIENT)
 	{
-		transport = std::shared_ptr<Boggart::Transport::TransportBase>(new Boggart::Transport::TCP::Client(name, Options::IP(), Options::Port()));
+		transport = std::shared_ptr<Boggart::Transport::TransportBase>(new Boggart::Transport::UDP::Client(name, options->IP(), options->Port()));
 	}
-	else if (Options::Personality() == Options::PERSONALITY_SERVER)
+	else if (options->Personality() == Options::PERSONALITY_SERVER)
 	{
-		transport = std::shared_ptr<Boggart::Transport::TransportBase>(new Boggart::Transport::TCP::Server(name, Options::Port()));
+		transport = std::shared_ptr<Boggart::Transport::TransportBase>(new Boggart::Transport::UDP::Server(name, options->Port()));
 	}
 
 	std::function<void(std::string, std::string, std::vector<unsigned char>)> OnUserIOMessage =
-		[boggart, name](std::string source, std::string destination, std::vector<unsigned char> data)
+		[boggart, name, options](std::string source, std::string destination, std::vector<unsigned char> data)
 	{
 		std::shared_ptr<UserIOMessage> message(new UserIOMessage(data));
-		if (!message->Valid())
+		if (!message->Valid() || message->Destination() != name) // If message is invalid or is not for me
 		{
 			return;
 		}
 
-		if (message->Destination() == name) // If it''s for me?
+		if (message->Command() == UserIOMessage::Command_Subscribe)
 		{
-			if (message->Command() == UserIOMessage::Command_Subscribe)
-			{
-				boggart->SubscribeMessage(message->Topic(), std::bind(OnMessage, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-			}
-			else if (message->Command() == UserIOMessage::Command_Send)
-			{
-				Boggart::Message::IMessagePtr imessage(new GenericMessage(message->Topic(), message->Data()));
-				boggart->Send(Boggart::IPC::DestinationAny, imessage);
-			}
+			boggart->SubscribeMessage(message->Topic(), std::bind(OnMessage, name, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 		}
-		else if(Options::Personality() == Options::PERSONALITY_SERVER)// If it's for someone else
+		else if (message->Command() == UserIOMessage::Command_Send)
 		{
-			boggart->Send(message->Destination(), message);
+			std::string userData = message->Data(); std::vector<unsigned char> payload(userData.begin(), userData.end());
+			Boggart::Message::IMessagePtr imessage(new Boggart::Message::Type::Generic(message->Topic(), payload));
+			boggart->Send(Boggart::IPC::DestinationAny, imessage);
 		}
-		
 	};
 
 	boggart->InjectTransport(transport);
-
 	boggart->SubscribeMessage(UserIOMessage::TypeString(), OnUserIOMessage);
+}
+
+int main(int argc, char* argv[])
+{
+	const int N = 5;
+	std::vector<std::string> args(4);
+
+	const std::string Port("9998");
+	const std::string IP("127.0.0.1");
+
+	args[0] = ""; args[1] = "server"; args[2] = Port;
+	CreateBoggart(args);
+
+	args[0] = ""; args[1] = "client"; args[2] = IP; args[3] = Port;
+	CreateBoggart(args);
+
+	/*args[0] = ""; args[1] = "client"; args[2] = IP; args[3] = Port;
+	CreateBoggart(args);
+
+	args[0] = ""; args[1] = "client"; args[2] = IP; args[3] = Port;
+	CreateBoggart(args);*/
 
 	Boggart::Boggart::Start();
 

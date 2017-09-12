@@ -66,7 +66,7 @@ void Task_Boggart()
 
 	timer->Start(sendTimer);
 
-	std::shared_ptr<Boggart::Transport::TransportBase> client(new Boggart::Transport::TCP::Client("user_io_boggart", "127.0.0.1", 9998));
+	std::shared_ptr<Boggart::Transport::TransportBase> client(new Boggart::Transport::UDP::Client("user_io_boggart", "127.0.0.1", 9998));
 
 	boggart->InjectTimerManager(timer);
 	boggart->InjectTransport(client);
