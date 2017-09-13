@@ -82,19 +82,20 @@ void CreateBoggart(std::vector<std::string> args)
 
 int main(int argc, char* argv[])
 {
-	const int N = 5;
-	std::vector<std::string> args(4);
+	std::vector<std::string> args(argv, argv + argc);
 
 	const std::string Port("9998");
 	const std::string IP("127.0.0.1");
 
-	args[0] = ""; args[1] = "server"; args[2] = Port;
+	CreateBoggart(args);
+
+	/*args[0] = ""; args[1] = "server"; args[2] = Port;
 	CreateBoggart(args);
 
 	args[0] = ""; args[1] = "client"; args[2] = IP; args[3] = Port;
 	CreateBoggart(args);
 
-	/*args[0] = ""; args[1] = "client"; args[2] = IP; args[3] = Port;
+	args[0] = ""; args[1] = "client"; args[2] = IP; args[3] = Port;
 	CreateBoggart(args);
 
 	args[0] = ""; args[1] = "client"; args[2] = IP; args[3] = Port;

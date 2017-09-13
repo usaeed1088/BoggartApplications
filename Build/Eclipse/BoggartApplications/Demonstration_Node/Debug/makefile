@@ -8,7 +8,8 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include Demonstration_Node/Messages/Generic/subdir.mk
+-include Demonstration_Node/Options/subdir.mk
+-include Demonstration_Node/Messages/UserIO/subdir.mk
 -include Demonstration_Node/Messages/Chat/subdir.mk
 -include Demonstration_Node/subdir.mk
 -include subdir.mk

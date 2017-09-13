@@ -25,5 +25,6 @@ C_DEPS :=
 SUBDIRS := \
 Demonstration_Node \
 Demonstration_Node/Messages/Chat \
-Demonstration_Node/Messages/Generic \
+Demonstration_Node/Messages/UserIO \
+Demonstration_Node/Options \
 
