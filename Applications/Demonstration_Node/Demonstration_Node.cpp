@@ -31,12 +31,12 @@ std::string Query(std::string query)
 	return response;
 }
 
-void CreateBoggart(std::vector<std::string> args)
+bool CreateBoggart(std::vector<std::string> args)
 {
 	std::shared_ptr<Options> options(new Options());
 	if (!options->Process(args))
 	{
-		return;
+		return false;
 	}
 
 	std::string name = Query("Give me a name, please? ");
@@ -78,6 +78,8 @@ void CreateBoggart(std::vector<std::string> args)
 
 	boggart->InjectTransport(transport);
 	boggart->SubscribeMessage(UserIOMessage::TypeString(), OnUserIOMessage);
+
+	 return true;
 }
 
 int main(int argc, char* argv[])
@@ -87,7 +89,10 @@ int main(int argc, char* argv[])
 	const std::string Port("9998");
 	const std::string IP("127.0.0.1");
 
-	CreateBoggart(args);
+	if(!CreateBoggart(args))
+	{
+		return 0;
+	}
 
 	/*args[0] = ""; args[1] = "server"; args[2] = Port;
 	CreateBoggart(args);
