@@ -23,7 +23,7 @@ void OnMessage(std::string me, std::string source, std::string destination, std:
 	std::vector<unsigned char> payload = message.Payload();
 	std::string string(payload.begin(), payload.end());
 
-	std::cout << timestamp << " [" << me << "] received from [" << source << "] : " << string << std::endl;
+	std::cout << timestamp << " [" << me << "] received [" << message.Type() << "] from [" << source << "] : " << string << std::endl;
 }
 
 std::string Query(std::string query)
