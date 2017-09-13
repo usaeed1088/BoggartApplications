@@ -11,7 +11,7 @@
 
 void OnMessage(std::string me, std::string source, std::string destination, std::vector<unsigned char> data)
 {
-	ChatMessage message(data);
+	Boggart::Message::Type::Generic message(data);
 	if (!message.Valid())
 	{
 		return;
@@ -20,7 +20,10 @@ void OnMessage(std::string me, std::string source, std::string destination, std:
 	std::string format = PAL::Instantiator::APIFactory()->GetTimeInstance()->TimeFormat();
 	std::string timestamp = PAL::Instantiator::APIFactory()->GetTimeInstance()->HumanReadableTimestamp(format, false);
 
-	std::cout << timestamp << " [" << me << "] received from [" << source << "] : " << message.Message() << std::endl;
+	std::vector<unsigned char> payload = message.Payload();
+	std::string string(payload.begin(), payload.end());
+
+	std::cout << timestamp << " [" << me << "] received from [" << source << "] : " << string << std::endl;
 }
 
 std::string Query(std::string query)
