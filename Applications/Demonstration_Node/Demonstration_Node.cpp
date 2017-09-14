@@ -8,6 +8,7 @@
 #include "Options/Options.h"
 
 #include <iostream>
+#include <map>
 
 void OnMessage(std::string me, std::string source, std::string destination, std::vector<unsigned char> data)
 {
@@ -34,80 +35,103 @@ std::string Query(std::string query)
 	return response;
 }
 
-bool CreateBoggart(std::vector<std::string> args)
+void OnUserIOMessage(Boggart::BoggartPtr boggart, std::string source, std::string destination, std::vector<unsigned char> data)
 {
-	std::shared_ptr<Options> options(new Options());
-	if (!options->Process(args))
+	std::shared_ptr<UserIOMessage> message(new UserIOMessage(data));
+	if (!message->Valid() || message->Destination() != boggart->Name()) // If message is invalid or is not for me
 	{
-		return false;
+		return;
 	}
 
+	if (message->Command() == UserIOMessage::Command_Subscribe)
+	{
+		boggart->SubscribeMessage(message->Topic(), std::bind(OnMessage, boggart->Name(), std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+	}
+	else if (message->Command() == UserIOMessage::Command_Send)
+	{
+		std::string userData = message->Data(); std::vector<unsigned char> payload(userData.begin(), userData.end());
+		Boggart::Message::IMessagePtr imessage(new Boggart::Message::Type::Generic(message->Topic(), payload));
+		boggart->Send(Boggart::IPC::DestinationAny, imessage);
+	}
+}
+
+bool SetupForPC(std::shared_ptr<Options> options)
+{
+	// Needs one TCP Server
 	std::string name = Query("Give me a name, please? ");
-	std::cout << name << ". Seriously?" << std::endl;
+	std::cout << name << "??? Seriously... ???" << std::endl;
 
-	Boggart::BoggartPtr boggart(new Boggart::Boggart(name));
+	std::shared_ptr<Boggart::Transport::TransportBase> transport(new Boggart::Transport::TCP::Server(name, options->TCPPort()));
 
-	std::shared_ptr<Boggart::Transport::TransportBase> transport = nullptr;
-
-	if (options->Personality() == Options::PERSONALITY_CLIENT)
-	{
-		transport = std::shared_ptr<Boggart::Transport::TransportBase>(new Boggart::Transport::UDP::Client(name, options->IP(), options->Port()));
-	}
-	else if (options->Personality() == Options::PERSONALITY_SERVER)
-	{
-		transport = std::shared_ptr<Boggart::Transport::TransportBase>(new Boggart::Transport::UDP::Server(name, options->Port()));
-	}
-
-	std::function<void(std::string, std::string, std::vector<unsigned char>)> OnUserIOMessage =
-		[boggart, name, options](std::string source, std::string destination, std::vector<unsigned char> data)
-	{
-		std::shared_ptr<UserIOMessage> message(new UserIOMessage(data));
-		if (!message->Valid() || message->Destination() != name) // If message is invalid or is not for me
-		{
-			return;
-		}
-
-		if (message->Command() == UserIOMessage::Command_Subscribe)
-		{
-			boggart->SubscribeMessage(message->Topic(), std::bind(OnMessage, name, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-		}
-		else if (message->Command() == UserIOMessage::Command_Send)
-		{
-			std::string userData = message->Data(); std::vector<unsigned char> payload(userData.begin(), userData.end());
-			Boggart::Message::IMessagePtr imessage(new Boggart::Message::Type::Generic(message->Topic(), payload));
-			boggart->Send(Boggart::IPC::DestinationAny, imessage);
-		}
-	};
-
+	static Boggart::BoggartPtr boggart(new Boggart::Boggart(name));
 	boggart->InjectTransport(transport);
-	boggart->SubscribeMessage(UserIOMessage::TypeString(), OnUserIOMessage);
+	boggart->SubscribeMessage(UserIOMessage::TypeString(), std::bind(OnUserIOMessage, boggart, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 
-	 return true;
+	return true;
+}
+
+bool SetupForVM(std::shared_ptr<Options> options)
+{
+	// Needs one TCP Client
+	// Needs one UDP Server
+	std::string name = Query("Give me a name, please? ");
+	std::cout << name << "??? Seriously... ???" << std::endl;
+
+	// Setup bridged boggart
+	std::shared_ptr<Boggart::Transport::TransportBase> tcpClient(new Boggart::Transport::TCP::Client(name, options->IP(), options->TCPPort()));
+	std::shared_ptr<Boggart::Transport::TransportBase> udpServer(new Boggart::Transport::UDP::Server(name, options->UDPPort()));
+	std::shared_ptr<Boggart::Transport::TransportBase> inProc(new Boggart::Transport::InProcess(name));
+
+	std::shared_ptr<Boggart::Transport::Bridge> bridge(new Boggart::Transport::Bridge());
+	bridge->InjectTransport(tcpClient);
+	bridge->InjectTransport(udpServer);
+	bridge->InjectTransport(inProc);
+
+	static Boggart::BoggartPtr bridgedBoggart(new Boggart::Boggart(name + "Bridged"));
+	bridgedBoggart->InjectTransport(bridge);
+
+	// Setup normal boggart
+	std::shared_ptr<Boggart::Transport::TransportBase> transport(new Boggart::Transport::InProcess(name));
+	static Boggart::BoggartPtr boggart(new Boggart::Boggart(name));
+	boggart->InjectTransport(transport);
+
+	boggart->SubscribeMessage(UserIOMessage::TypeString(), std::bind(OnUserIOMessage, boggart, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+
+	return true;
+}
+
+bool SetupForPi(std::shared_ptr<Options> options)
+{
+	// Needs one TCP Server
+	std::string name = Query("Give me a name, please? ");
+	std::cout << name << "??? Seriously... ???" << std::endl;
+
+	std::shared_ptr<Boggart::Transport::TransportBase> transport(new Boggart::Transport::UDP::Client(name, options->IP(), options->UDPPort()));
+
+	static Boggart::BoggartPtr boggart(new Boggart::Boggart(name));
+	boggart->InjectTransport(transport);
+	boggart->SubscribeMessage(UserIOMessage::TypeString(), std::bind(OnUserIOMessage, boggart, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+
+	return true;
 }
 
 int main(int argc, char* argv[])
 {
 	std::vector<std::string> args(argv, argv + argc);
 
-	const std::string Port("9998");
-	const std::string IP("127.0.0.1");
+	std::map<std::string, std::function<bool(std::shared_ptr<Options>)>> PersonalitySetupLUT;
 
-	if(!CreateBoggart(args))
+	PersonalitySetupLUT[Options::PERSONALITY_PC] = std::bind(SetupForPC, std::placeholders::_1);
+	PersonalitySetupLUT[Options::PERSONALITY_VM] = std::bind(SetupForVM, std::placeholders::_1);
+	PersonalitySetupLUT[Options::PERSONALITY_PI] = std::bind(SetupForPi, std::placeholders::_1);
+
+	std::shared_ptr<Options> options(new Options());
+	if (!options->Process(args))
 	{
 		return 0;
 	}
 
-	/*args[0] = ""; args[1] = "server"; args[2] = Port;
-	CreateBoggart(args);
-
-	args[0] = ""; args[1] = "client"; args[2] = IP; args[3] = Port;
-	CreateBoggart(args);
-
-	args[0] = ""; args[1] = "client"; args[2] = IP; args[3] = Port;
-	CreateBoggart(args);
-
-	args[0] = ""; args[1] = "client"; args[2] = IP; args[3] = Port;
-	CreateBoggart(args);*/
+	PersonalitySetupLUT[options->Personality()](options);
 
 	Boggart::Boggart::Start();
 

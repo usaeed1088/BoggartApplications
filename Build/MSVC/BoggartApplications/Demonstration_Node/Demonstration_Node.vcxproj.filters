@@ -16,9 +16,6 @@
     <Filter Include="Messages">
       <UniqueIdentifier>{912808de-993a-4e7a-95c8-6e41de2ec4ea}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Messages\Chat">
-      <UniqueIdentifier>{fbffeff0-27dc-4ff2-8842-4f8ee81ba542}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Options">
       <UniqueIdentifier>{365a80ff-d4d2-4f29-91ef-1a5cb0739fa5}</UniqueIdentifier>
     </Filter>
@@ -30,9 +27,6 @@
     <ClCompile Include="..\..\..\..\Applications\Demonstration_Node\Demonstration_Node.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\..\Applications\Demonstration_Node\Messages\Chat\Chat.cpp">
-      <Filter>Messages\Chat</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\Applications\Demonstration_Node\Options\Options.cpp">
       <Filter>Options</Filter>
     </ClCompile>
@@ -41,9 +35,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Applications\Demonstration_Node\Messages\Chat\Chat.h">
-      <Filter>Messages\Chat</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\Applications\Demonstration_Node\Options\Options.h">
       <Filter>Options</Filter>
     </ClInclude>

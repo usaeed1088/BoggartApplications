@@ -115,12 +115,10 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\..\Applications\Demonstration_Common\Messages\UserIO\UserIOMessage.cpp" />
     <ClCompile Include="..\..\..\..\Applications\Demonstration_Node\Demonstration_Node.cpp" />
-    <ClCompile Include="..\..\..\..\Applications\Demonstration_Node\Messages\Chat\Chat.cpp" />
     <ClCompile Include="..\..\..\..\Applications\Demonstration_Node\Options\Options.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Applications\Demonstration_Common\Messages\UserIO\UserIOMessage.h" />
-    <ClInclude Include="..\..\..\..\Applications\Demonstration_Node\Messages\Chat\Chat.h" />
     <ClInclude Include="..\..\..\..\Applications\Demonstration_Node\Options\Options.h" />
   </ItemGroup>
   <ItemGroup>
