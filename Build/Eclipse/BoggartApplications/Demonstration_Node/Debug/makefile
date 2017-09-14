@@ -10,7 +10,6 @@ RM := rm -rf
 -include sources.mk
 -include Demonstration_Node/Options/subdir.mk
 -include Demonstration_Node/Messages/UserIO/subdir.mk
--include Demonstration_Node/Messages/Chat/subdir.mk
 -include Demonstration_Node/subdir.mk
 -include subdir.mk
 -include objects.mk

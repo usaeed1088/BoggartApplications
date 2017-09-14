@@ -1,8 +1,6 @@
 #include <Lib/Boggart/Boggart.h>
 #include <Lib/Instantiator.h>
 
-#include "Messages/Chat/Chat.h"
-
 #include "../../Applications/Demonstration_Common/Messages/UserIO/UserIOMessage.h"
 
 #include "Options/Options.h"

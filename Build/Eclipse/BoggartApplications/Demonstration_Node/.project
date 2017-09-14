@@ -31,9 +31,9 @@
 			<locationURI>PARENT-4-PROJECT_LOC/Applications/Demonstration_Node</locationURI>
 		</link>
 		<link>
-			<name>Demonstration_Node/Messages/UserIO</name>
+			<name>Demonstration_Node/Messages</name>
 			<type>2</type>
-			<locationURI>$%7BPARENT-4-PROJECT_LOC%7D/Applications/Demonstration_Common/Messages/UserIO</locationURI>
+			<locationURI>PARENT-4-PROJECT_LOC../Applications/Demonstration_Common/Messages</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

@@ -4,9 +4,9 @@
 #include <functional>
 #include <iostream>
 
-const std::string Options::PERSONALITY_PC("PC");
-const std::string Options::PERSONALITY_VM("VM");
-const std::string Options::PERSONALITY_PI("PI");
+const std::string Options::PERSONALITY_PC("pc");
+const std::string Options::PERSONALITY_VM("vm");
+const std::string Options::PERSONALITY_PI("pi");
 
 Options::Options():
 	m_Personality(),
